@@ -1,0 +1,70 @@
+<!--background-image-->
+<div class="rgba-black-light d-flex justify-content-center background-image view" id="home">
+  <!--select form-->
+  <form #f="ngForm" (ngSubmit)="moreClick(f)" class="animated rotateInUpLeft form-weather z-depth-5">
+    <p class="h2 animated flash form-header text-center">Choose your city</p>
+    <div class="select-form">
+      <select @fade [(ngModel)]="selectedOption" class="custom-select select-city" id="inputGroupSelect01" name="first">
+          <option [ngValue]="undefined" disabled  selected>
+            Select Your City
+          </option>
+          <option class="cities" *ngFor="let city of cities">
+           {{ city.name }}
+         </option>
+      </select>
+      <div class="form-button">
+        <button @fade type="button" color="blue-grey" mdbWavesEffect mdbBtn class="more-button waves-light" [disabled]="!selectedOption" (click)="moreClick()" (click)="basicModal.show()" (click)="currentWeather()" (click)="showImage()">more...</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<!--modal-->
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fluid"  role="document">
+    <div class="modal-content" [style.backgroundColor]="tempArray.temp < 10 ? 'rgb(77, 219, 255)' : 'rgb(237, 255, 77)'">
+
+      <!--modal header-->
+      <div class="modal-header">
+        <button class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title h2 w-100 text-center" id="myModalLabel">{{ selectedOption | uppercase }}</h4>
+      </div>
+
+      <!--modal body-->
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+
+            <!--left side-->
+            <div class="col-md">
+              <img class="image-city" src="{{ imageUrl }}">
+            </div>
+
+            <!--right side-->
+            <div class="col-sm">
+              <div class="right-side">
+                <br>
+                <h3 class="explain-temp">Average temperature {{ selectedOption }} city is {{ tempArray.temp | number: '1.2-2' }}C and wind strength is {{ windArray.speed | number: '1.2-2' }}m/s</h3>
+                <br>
+                <p class="explain-button">Click this button to know next hours forecat</p>
+                <div>
+                  <button mdbPopover="I cant show you see cosole ;)" placement="top" mdbPopoverHeader="Sorry"
+                    class="col-md next-button waves-light" mdbBtn color="dark" mdbWavesEffect (click)="nextHour()">next hours
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!--modal footer-->
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="secondary" class="close-button waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
